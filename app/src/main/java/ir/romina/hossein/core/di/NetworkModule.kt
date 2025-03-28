@@ -8,6 +8,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 val networkModule = module {
@@ -17,11 +18,13 @@ val networkModule = module {
                 level = LogLevel.BODY
             }
             install(ContentNegotiation) {
-                json()
+                json(Json {
+                    ignoreUnknownKeys = true
+                })
             }
             defaultRequest {
                 url {
-                    host = "mocki.io/v1/"
+                    host = "mocki.io/v1"
                     protocol = URLProtocol.HTTPS
                 }
             }
