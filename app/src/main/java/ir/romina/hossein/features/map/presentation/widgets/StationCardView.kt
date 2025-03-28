@@ -13,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ir.romina.hossein.R
 import ir.romina.hossein.features.map.domain.entities.StationEntity
 
 @Composable
@@ -46,15 +48,18 @@ fun StationCardView(
                     fontSize = 22.sp
                 )
             )
-            Text(text = (station.capacity).toString())
+            Text(
+                text = (station.capacity).toString()
+            )
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Button(onClick = onNavigationTap) {
-                    Text(text = "Navigate")
+                    Text(text = stringResource(id = R.string.navigate))
                 }
                 Button(onClick = onDetailsTap) {
-                    Text(text = "Details")
+                    Text(text = stringResource(id = R.string.details))
+
                 }
 
             }

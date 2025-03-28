@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Station</string>
+    <string name="try_again">Try Again</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="please_try_again">Please try again</string>
+    <string name="navigate">Navigate</string>
+    <string name="details">Details</string>
 </resources>

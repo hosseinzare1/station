@@ -7,7 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ir.romina.hossein.R
 
 @Composable
 fun AppFailureView(
@@ -22,16 +24,16 @@ fun AppFailureView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = title ?: "Something went wrong",
+            text = title ?: stringResource(id = R.string.something_went_wrong),
         )
         Text(
-            text = description ?: "Please try again"
+            text = description ?: stringResource(id = R.string.please_try_again)
         )
         Button(
             onClick = onTryAgainClick
         ) {
             Text(
-                text = "Try again"
+                text = stringResource(id = R.string.try_again)
             )
         }
     }

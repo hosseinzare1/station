@@ -29,8 +29,7 @@ fun StationsListView(
         items(stations) { station ->
             StationCardView(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 18.dp)
-                    .fillMaxWidth(),
+                    .padding(horizontal = 8.dp, vertical = 18.dp),
                 station = station,
                 isSelected = station.stationId == selectedStationId,
                 onNavigationTap = {
