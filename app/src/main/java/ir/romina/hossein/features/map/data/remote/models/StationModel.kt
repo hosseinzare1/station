@@ -14,5 +14,5 @@ data class StationModel(
     @SerialName("rental_method")
     val rentalMethod: String?,
     @SerialName("station_id")
-    val stationId: String?
+    val stationId: String
 )

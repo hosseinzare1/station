@@ -7,5 +7,6 @@ data class MapState(
     val operationStatus: OperationStatus = OperationStatus.IDLE,
     val errorMessage: String? = null,
     val stations: List<StationEntity> = emptyList(),
-    val selectedStationId: String? = null
+    val selectedStationId: String? = null,
+    val maxCapacity: Short? = null
 )

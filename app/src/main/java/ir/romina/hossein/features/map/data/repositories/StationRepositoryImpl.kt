@@ -12,7 +12,11 @@ class StationRepositoryImpl(
 ) : StationRepository {
     override suspend fun getStations(): OperationResult<List<StationEntity>> {
         try {
-            val response = stationRemoteDataSource.getStations().map { it.toEntity() }
+            val response =
+                stationRemoteDataSource
+                    .getStations()
+                    .mapNotNull { it.toEntity() }
+
             return OperationResult.Success(
                 response
             )

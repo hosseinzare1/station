@@ -15,6 +15,10 @@ class MapViewModel(
     private val _state = MutableStateFlow(MapState())
     val state: StateFlow<MapState> = _state
 
+    init {
+        handleIntent(MapIntent.LoadStations)
+    }
+
     fun handleIntent(intent: MapIntent) {
         when (intent) {
             is MapIntent.LoadStations -> loadStations()
@@ -36,10 +40,14 @@ class MapViewModel(
         viewModelScope.launch {
             val stationsResult = getStationsUseCase.call(Unit)
             _state.value = when (stationsResult) {
-                is OperationResult.Success -> _state.value.copy(
-                    operationStatus = OperationStatus.SUCCESS,
-                    stations = stationsResult.data
-                )
+                is OperationResult.Success -> {
+                    val maxCapacity = stationsResult.data.maxByOrNull { it.capacity }?.capacity
+                    _state.value.copy(
+                        operationStatus = OperationStatus.SUCCESS,
+                        stations = stationsResult.data,
+                        maxCapacity = maxCapacity
+                    )
+                }
 
                 is OperationResult.Failure -> _state.value.copy(
                     operationStatus = OperationStatus.ERROR,
@@ -48,10 +56,6 @@ class MapViewModel(
                 )
             }
         }
-    }
-
-    init {
-        handleIntent(MapIntent.LoadStations)
     }
 
 
