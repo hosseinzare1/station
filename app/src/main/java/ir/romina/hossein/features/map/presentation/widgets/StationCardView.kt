@@ -7,17 +7,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ir.romina.hossein.R
+import ir.romina.hossein.core.ui.components.AppButton
 import ir.romina.hossein.features.map.domain.entities.StationEntity
 
 @Composable
@@ -43,25 +42,24 @@ fun StationCardView(
                 .padding(16.dp)
         ) {
             Text(
-                //TODO set style form Theme class
-                text = station.name ?: "", style = TextStyle(
-                    fontSize = 22.sp
-                )
+                text = station.name ?: "",
+                style = MaterialTheme.typography.titleMedium,
             )
             Text(
-                text = (station.capacity).toString()
+                text = (station.capacity).toString(),
+                style = MaterialTheme.typography.titleLarge,
             )
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Button(onClick = onNavigationTap) {
-                    Text(text = stringResource(id = R.string.navigate))
-                }
-                Button(onClick = onDetailsTap) {
-                    Text(text = stringResource(id = R.string.details))
-
-                }
-
+                AppButton(
+                    title = stringResource(id = R.string.navigate),
+                    onClick = onNavigationTap,
+                )
+                AppButton(
+                    title = stringResource(id = R.string.details),
+                    onClick = onDetailsTap,
+                )
             }
         }
     }
