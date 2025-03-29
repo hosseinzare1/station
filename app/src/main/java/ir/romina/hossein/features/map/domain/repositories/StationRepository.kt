@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface StationRepository {
     fun getStations(searchText: String): Flow<OperationResult<List<Station>>>
 
-    suspend fun synchronize()
+    suspend fun synchronizeStations():OperationResult<Unit>
 }

@@ -1,6 +1,7 @@
 package ir.romina.hossein.features.map.presentation.widgets
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -19,8 +20,8 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import ir.romina.hossein.core.enums.OperationStatus
 import ir.romina.hossein.core.ui.components.AppLoadingIndicator
 import ir.romina.hossein.features.map.domain.entities.Station
-import ir.romina.hossein.features.map.presentation.manager.MapIntent
-import ir.romina.hossein.features.map.presentation.manager.MapViewModel
+import ir.romina.hossein.features.map.presentation.manager.map.MapIntent
+import ir.romina.hossein.features.map.presentation.manager.map.MapViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -42,7 +43,7 @@ fun MapMainView(
     }
 
     Box(modifier = modifier) {
-        MapView(
+        GoogleMapView(
             stations = state.stations,
             cameraPositionState = cameraPositionState,
             onClick = { station ->
@@ -58,15 +59,24 @@ fun MapMainView(
         if (state.operationStatus == OperationStatus.LOADING) {
             AppLoadingIndicator()
         }
-        SearchFieldView(
+        Row(
             modifier = Modifier
                 .padding(top = 32.dp)
                 .fillMaxWidth()
                 .align(Alignment.TopCenter),
-            onChangeWithDebounce = { newText ->
-                mapViewModel.handleIntent(MapIntent.FilterStations(newText))
-            }
-        )
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            SearchStationView(
+                modifier = Modifier.weight(1f),
+                onChange = { newText ->
+                    mapViewModel.handleIntent(MapIntent.UpdateSearchQuery(newText))
+                }
+            )
+            SyncStateView(
+                modifier = Modifier.padding(end = 16.dp)
+            )
+        }
+
         StationsListView(
             modifier = Modifier
                 .align(Alignment.BottomCenter)

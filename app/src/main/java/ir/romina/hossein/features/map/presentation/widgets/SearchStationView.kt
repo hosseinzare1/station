@@ -13,7 +13,7 @@ import ir.romina.hossein.R
 import ir.romina.hossein.core.ui.components.AppTextField
 
 @Composable
-fun SearchFieldView(modifier: Modifier = Modifier, onChangeWithDebounce: (String) -> Unit = {}) {
+fun SearchStationView(modifier: Modifier = Modifier, onChange: (String) -> Unit = {}) {
     AppTextField(
         modifier = modifier
             .padding(all = 16.dp)
@@ -21,6 +21,6 @@ fun SearchFieldView(modifier: Modifier = Modifier, onChangeWithDebounce: (String
             .background(MaterialTheme.colorScheme.surface),
 
         label = stringResource(R.string.search),
-        onChangeWithDebounce = onChangeWithDebounce,
+        onChange = onChange,
     )
 }

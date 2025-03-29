@@ -1,5 +1,6 @@
 package ir.romina.hossein.features.map.presentation.widgets
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
@@ -10,7 +11,7 @@ import com.google.maps.android.compose.GoogleMap
 import ir.romina.hossein.features.map.domain.entities.Station
 
 @Composable
-fun MapView(
+fun GoogleMapView(
     stations: List<Station>,
     cameraPositionState: CameraPositionState,
     onClick: (station: Station) -> Unit,
@@ -27,7 +28,7 @@ fun MapView(
                 clickable = true,
                 radius = station.capacity * 10.0 + 100.0,
                 strokeWidth = 2f,
-                strokeColor = Color.Blue,
+                strokeColor = MaterialTheme.colorScheme.primary,
                 fillColor = when {
                     ratio < 0.4f -> Color(0xFF4CAF50)
                     ratio < 0.8f -> Color(0xFFFF9800)

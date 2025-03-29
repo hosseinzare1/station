@@ -13,9 +13,4 @@ val localModule = module {
             AppDatabase::class.java, DBConst.DATABASE_NAME
         ).build()
     }
-
-    single {
-        get<AppDatabase>().stationDao()
-    }
-
 }

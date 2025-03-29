@@ -1,4 +1,4 @@
-package ir.romina.hossein.features.map.presentation.manager
+package ir.romina.hossein.features.map.presentation.manager.map
 
 import ir.romina.hossein.core.enums.OperationStatus
 import ir.romina.hossein.features.map.domain.entities.Station

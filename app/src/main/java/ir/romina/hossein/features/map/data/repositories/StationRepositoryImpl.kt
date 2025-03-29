@@ -37,8 +37,17 @@ class StationRepositoryImpl(
             }
     }
 
-    override suspend fun synchronize() {
-        val stations = stationRemoteDataSource.getStations().mapNotNull { it.asEntity() }
-        stationDao.upsertStations(stations)
+
+    override suspend fun synchronizeStations(): OperationResult<Unit> {
+        try {
+            val stations = stationRemoteDataSource.getStations().mapNotNull { it.asEntity() }
+
+            stationDao.upsertStations(stations)
+            return OperationResult.Success(data = Unit)
+        } catch (e: Exception) {
+            val appException = e.toAppException()
+            return OperationResult.Failure(appException)
+        }
+
     }
 }

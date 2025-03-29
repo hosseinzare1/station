@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import ir.romina.hossein.core.enums.OperationStatus
 import ir.romina.hossein.core.ui.components.AppFailureView
 import ir.romina.hossein.features.map.domain.entities.Station
-import ir.romina.hossein.features.map.presentation.manager.MapIntent
-import ir.romina.hossein.features.map.presentation.manager.MapViewModel
+import ir.romina.hossein.features.map.presentation.manager.map.MapIntent
+import ir.romina.hossein.features.map.presentation.manager.map.MapViewModel
 import ir.romina.hossein.features.map.presentation.widgets.MapMainView
 
 @Composable
