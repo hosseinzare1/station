@@ -16,7 +16,7 @@ fun GoogleMapView(
     cameraPositionState: CameraPositionState,
     onClick: (station: Station) -> Unit,
 ) {
-    val maxCapacity = rememberSaveable { stations.maxByOrNull { it.capacity }?.capacity ?: 0 }
+    val maxCapacity = stations.maxByOrNull { it.capacity }?.capacity ?: 0
 
     GoogleMap(
         cameraPositionState = cameraPositionState
@@ -30,9 +30,9 @@ fun GoogleMapView(
                 strokeWidth = 2f,
                 strokeColor = MaterialTheme.colorScheme.primary,
                 fillColor = when {
-                    ratio < 0.4f -> Color(0xFF4CAF50)
+                    ratio < 0.4f ->Color(0xFFF44336)
                     ratio < 0.8f -> Color(0xFFFF9800)
-                    else -> Color(0xFFF44336)
+                    else ->  Color(0xFF4CAF50)
                 },
                 onClick = {
                     onClick(station)
