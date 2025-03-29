@@ -1,7 +1,8 @@
 package ir.romina.hossein.features.map.presentation.widgets
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Refresh
@@ -30,22 +31,20 @@ fun SyncStateView(modifier: Modifier = Modifier) {
     val state by viewModel.state.collectAsState()
 
 
-    Box(modifier = modifier.width(48.dp), contentAlignment = Alignment.Center) {
+    Box(modifier = modifier.size(48.dp).background(
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        shape = MaterialTheme.shapes.small
+    ), contentAlignment = Alignment.Center) {
         when (state.synchronizeOperationsStatus) {
             OperationStatus.IDLE -> Unit
             OperationStatus.LOADING -> AppLoadingIndicator(
             )
 
-            OperationStatus.SUCCESS -> IconButton(
-                onClick = {
-                    viewModel.handleIntent(SynchronizeIntent.SyncStations)
-                }) {
-                Icon(
-                    imageVector = Icons.Rounded.Check,
-                    tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = stringResource(R.string.success)
-                )
-            }
+            OperationStatus.SUCCESS -> Icon(
+                imageVector = Icons.Rounded.Check,
+                tint = MaterialTheme.colorScheme.primary,
+                contentDescription = stringResource(R.string.success)
+            )
 
             OperationStatus.ERROR -> IconButton(
                 onClick = {

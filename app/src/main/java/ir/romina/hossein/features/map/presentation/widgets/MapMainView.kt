@@ -2,16 +2,20 @@ package ir.romina.hossein.features.map.presentation.widgets
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
@@ -33,14 +37,29 @@ fun MapMainView(
 
     val stationListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+
     val state by mapViewModel.state.collectAsState()
 
-    //TODO After loading stations, if cameraPositionState == initState, move to founded stations
+    val firstStation = state.stations.firstOrNull()
+    val firstStationPosition = firstStation?.let { LatLng(firstStation.lat, firstStation.lon) }
+    val defaultPosition = firstStationPosition ?: LatLng(35.6892, 51.3890)
+
     val cameraPositionState = rememberCameraPositionState {
-        val first = state.stations.firstOrNull()
-        val initPosition = LatLng(first?.lat ?: 38.0539188, first?.lon ?: 46.370634)
-        position = CameraPosition.fromLatLngZoom(initPosition, 14f)
+        position = CameraPosition.fromLatLngZoom(defaultPosition, 14f)
     }
+
+    val configuration = LocalConfiguration.current
+
+    LaunchedEffect(firstStationPosition) {
+        if (firstStationPosition != null && cameraPositionState.position.target == defaultPosition) {
+            coroutineScope.launch {
+                cameraPositionState.animate(
+                    update = CameraUpdateFactory.newLatLng(firstStationPosition)
+                )
+            }
+        }
+    }
+
 
     Box(modifier = modifier) {
         GoogleMapView(
@@ -80,13 +99,19 @@ fun MapMainView(
         StationsListView(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .imePadding(),
+                .padding(bottom = 32.dp)
+                .apply {
+                    if (configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
+                        this.windowInsetsPadding(WindowInsets.ime)
+                    }
+                },
             stations = state.stations,
             onDetailsTap = onDetailsTap,
             lazyListState = stationListState,
             selectedStationId = state.selectedStationId,
             onNavigationTap = { station ->
                 coroutineScope.launch {
+                    mapViewModel.handleIntent(MapIntent.SelectStation(station.stationId))
                     stationListState.animateScrollToItem(
                         state.stations.indexOf(station)
                     )
