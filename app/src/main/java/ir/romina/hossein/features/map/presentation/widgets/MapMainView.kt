@@ -1,5 +1,6 @@
 package ir.romina.hossein.features.map.presentation.widgets
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -47,8 +48,6 @@ fun MapMainView(
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(defaultPosition, 14f)
     }
-
-    val configuration = LocalConfiguration.current
 
     LaunchedEffect(firstStationPosition) {
         if (firstStationPosition != null && cameraPositionState.position.target == defaultPosition) {
@@ -100,11 +99,13 @@ fun MapMainView(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 32.dp)
-                .apply {
-                    if (configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
-                        this.windowInsetsPadding(WindowInsets.ime)
+                .then(
+                    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        Modifier.windowInsetsPadding(WindowInsets.ime)
+                    } else {
+                        Modifier
                     }
-                },
+                ),
             stations = state.stations,
             onDetailsTap = onDetailsTap,
             lazyListState = stationListState,
@@ -116,10 +117,11 @@ fun MapMainView(
                         state.stations.indexOf(station)
                     )
                     cameraPositionState.animate(
-                        update = CameraUpdateFactory.newLatLng(
+                        update = CameraUpdateFactory.newLatLngZoom(
                             LatLng(
                                 station.lat, station.lon
-                            )
+                            ),
+                            14f
                         )
                     )
                 }
