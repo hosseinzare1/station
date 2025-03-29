@@ -13,7 +13,10 @@ val mapModule = module {
         StationRemoteDataSource(get())
     }
     single<StationRepository> {
-        StationRepositoryImpl(get())
+        StationRepositoryImpl(
+            get(),
+            get(),
+        )
     }
     factory {
         GetStationsUseCase(get())

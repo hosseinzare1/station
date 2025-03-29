@@ -3,7 +3,7 @@ package ir.romina.hossein.core.exception
 import java.net.SocketException
 
 //TODO handle more exceptions
-fun Exception.toAppException(): AppException {
+fun Throwable.toAppException(): AppException {
     return when (this) {
         is SocketException -> NetworkException()
         is AppException -> this

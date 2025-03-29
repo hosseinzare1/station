@@ -84,4 +84,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.maps.compose)
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 }

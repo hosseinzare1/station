@@ -1,6 +1,7 @@
 package ir.romina.hossein.core
 
 import android.app.Application
+import ir.romina.hossein.core.di.localModule
 import ir.romina.hossein.core.di.networkModule
 import ir.romina.hossein.features.map.di.mapModule
 import org.koin.android.ext.koin.androidContext
@@ -12,7 +13,7 @@ class StationApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@StationApplication)
-            modules(networkModule, mapModule)
+            modules(networkModule, localModule, mapModule)
         }
     }
 }

@@ -4,9 +4,9 @@ import ir.romina.hossein.features.map.enums.RentalMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StationEntity(
+data class Station(
     val capacity: Short,
-    val geocodedColumn: GeocodedColumnEntity,
+    val geocodedColumn: GeocodedColumn,
     val lat: Double,
     val lon: Double,
     val name: String?,
