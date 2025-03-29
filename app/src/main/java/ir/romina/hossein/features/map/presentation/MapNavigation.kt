@@ -30,6 +30,9 @@ fun NavGraphBuilder.mapNavGraph(navController: NavHostController) {
         val args = it.toRoute<MapNavigation.StationDetailsScreen>()
         StationDetailsScreen(
             station = args.station,
+            onBack = {
+                navController.navigateUp()
+            },
         )
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ir.romina.hossein.R
 import ir.romina.hossein.core.ui.components.AppButton
@@ -38,16 +39,24 @@ fun StationCardView(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 text = station.name ?: "",
-                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.headlineSmall,
             )
             Text(
-                text = (station.capacity).toString(),
-                style = MaterialTheme.typography.titleLarge,
+                text = "${stringResource(R.string.capacity)}:${station.capacity}",
+                style = MaterialTheme.typography.titleSmall,
             )
+            if (station.rentalMethod != null)
+                Text(
+                    text = (station.rentalMethod.joinToString(separator = "\n") { it.name }),
+                    style = MaterialTheme.typography.titleSmall,
+                )
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {

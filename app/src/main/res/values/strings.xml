@@ -8,4 +8,9 @@
     <string name="search">Search</string>
     <string name="success">Success</string>
     <string name="error">Error</string>
+    <string name="capacity">Capacity</string>
+    <string name="payment_methods">Payment Methods</string>
+    <string name="back">Back</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
 </resources>
