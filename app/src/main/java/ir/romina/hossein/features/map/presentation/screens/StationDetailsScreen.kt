@@ -6,11 +6,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
-import ir.romina.hossein.features.map.domain.entities.StationEntity
+import ir.romina.hossein.features.map.domain.entities.Station
 
 @Composable
 fun StationDetailsScreen(
-    station: StationEntity,
+    station: Station,
 ) {
     Box {
         Column {
@@ -20,7 +20,7 @@ fun StationDetailsScreen(
                 )
             )
             Text(
-                text = station.capacity.toString() ?: "", style = TextStyle(
+                text = station.capacity.toString(), style = TextStyle(
                     fontSize = 22.sp
                 )
             )

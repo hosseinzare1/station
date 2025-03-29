@@ -17,11 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ir.romina.hossein.R
 import ir.romina.hossein.core.ui.components.AppButton
-import ir.romina.hossein.features.map.domain.entities.StationEntity
+import ir.romina.hossein.features.map.domain.entities.Station
 
 @Composable
 fun StationCardView(
-    station: StationEntity,
+    station: Station,
     isSelected: Boolean,
     onNavigationTap: () -> Unit,
     onDetailsTap: () -> Unit,

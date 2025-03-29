@@ -9,14 +9,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ir.romina.hossein.features.map.domain.entities.StationEntity
+import ir.romina.hossein.features.map.domain.entities.Station
 
 
 @Composable
 fun StationsListView(
-    stations: List<StationEntity>,
-    onNavigationTap: (station: StationEntity) -> Unit,
-    onDetailsTap: (station: StationEntity) -> Unit,
+    stations: List<Station>,
+    onNavigationTap: (station: Station) -> Unit,
+    onDetailsTap: (station: Station) -> Unit,
     lazyListState: LazyListState = rememberLazyListState(),
     selectedStationId: String?,
     modifier: Modifier = Modifier

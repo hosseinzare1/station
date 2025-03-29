@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import ir.romina.hossein.core.ui.navigation.CustomNavType
-import ir.romina.hossein.features.map.domain.entities.StationEntity
+import ir.romina.hossein.features.map.domain.entities.Station
 import ir.romina.hossein.features.map.presentation.screens.MapScreen
 import ir.romina.hossein.features.map.presentation.screens.StationDetailsScreen
 import kotlinx.serialization.Serializable
@@ -24,7 +24,7 @@ fun NavGraphBuilder.mapNavGraph(navController: NavHostController) {
     }
     composable<MapNavigation.StationDetailsScreen>(
         typeMap = mapOf(
-            typeOf<StationEntity>() to CustomNavType(StationEntity.serializer()),
+            typeOf<Station>() to CustomNavType(Station.serializer()),
         )
     ) {
         val args = it.toRoute<MapNavigation.StationDetailsScreen>()
@@ -42,6 +42,6 @@ sealed class MapNavigation {
 
 
     @Serializable
-    data class StationDetailsScreen(val station: StationEntity)
+    data class StationDetailsScreen(val station: Station)
 }
 
