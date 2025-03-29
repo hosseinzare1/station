@@ -79,7 +79,6 @@ fun MapMainView(
         }
         Row(
             modifier = Modifier
-                .padding(top = 32.dp)
                 .fillMaxWidth()
                 .align(Alignment.TopCenter),
             verticalAlignment = Alignment.CenterVertically
@@ -98,7 +97,6 @@ fun MapMainView(
         StationsListView(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 32.dp)
                 .then(
                     if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
                         Modifier.windowInsetsPadding(WindowInsets.ime)

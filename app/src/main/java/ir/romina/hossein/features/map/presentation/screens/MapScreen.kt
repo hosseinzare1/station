@@ -27,7 +27,7 @@ fun MapScreen(
 
             state.stations.isNotEmpty() || state.operationStatus == OperationStatus.SUCCESS || state.operationStatus == OperationStatus.LOADING ->
                 MapMainView(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(innerPadding),
                     mapViewModel = mapViewModel,
                     onDetailsTap = onNavigateToDetails,
                 )

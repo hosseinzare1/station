@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
 import ir.romina.hossein.features.map.domain.entities.Station
 
 @Composable
@@ -19,7 +20,10 @@ fun GoogleMapView(
     val maxCapacity = stations.maxByOrNull { it.capacity }?.capacity ?: 0
 
     GoogleMap(
-        cameraPositionState = cameraPositionState
+        cameraPositionState = cameraPositionState,
+        uiSettings = MapUiSettings(
+            zoomControlsEnabled = false
+        )
     ) {
         stations.map { station ->
             val ratio: Float = rememberSaveable { station.capacity.toFloat() / maxCapacity }
@@ -30,9 +34,9 @@ fun GoogleMapView(
                 strokeWidth = 2f,
                 strokeColor = MaterialTheme.colorScheme.primary,
                 fillColor = when {
-                    ratio < 0.4f ->Color(0xFFF44336)
+                    ratio < 0.4f -> Color(0xFFF44336)
                     ratio < 0.8f -> Color(0xFFFF9800)
-                    else ->  Color(0xFF4CAF50)
+                    else -> Color(0xFF4CAF50)
                 },
                 onClick = {
                     onClick(station)
