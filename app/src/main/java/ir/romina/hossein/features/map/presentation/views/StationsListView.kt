@@ -1,5 +1,6 @@
-package ir.romina.hossein.features.map.presentation.widgets
+package ir.romina.hossein.features.map.presentation.views
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -25,6 +26,7 @@ fun StationsListView(
     LazyRow(
         modifier = modifier.fillMaxWidth(),
         state = lazyListState,
+        contentPadding = PaddingValues(8.dp)
     ) {
         items(stations) { station ->
             StationCardView(

@@ -6,7 +6,7 @@ import ir.romina.hossein.features.map.data.repositories.StationRepositoryImpl
 import ir.romina.hossein.features.map.domain.repositories.StationRepository
 import ir.romina.hossein.features.map.domain.usecases.GetStationsUseCase
 import ir.romina.hossein.features.map.domain.usecases.SynchronizeStationsUseCase
-import ir.romina.hossein.features.map.presentation.manager.map.MapViewModel
+import ir.romina.hossein.features.map.presentation.manager.station.StationViewModel
 import ir.romina.hossein.features.map.presentation.manager.synchronize.SynchronizeViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -34,6 +34,6 @@ val mapModule = module {
         SynchronizeStationsUseCase(get())
     }
 
-    viewModel { MapViewModel(get()) }
+    viewModel { StationViewModel(get()) }
     viewModel { SynchronizeViewModel(get(), get()) }
 }

@@ -1,4 +1,4 @@
-package ir.romina.hossein.features.map.presentation.manager.map
+package ir.romina.hossein.features.map.presentation.manager.station
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,11 +16,11 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class MapViewModel(
+class StationViewModel(
     private val getStationsUseCase: GetStationsUseCase
 ) : ViewModel() {
-    private val _state = MutableStateFlow(MapState())
-    val state: StateFlow<MapState> = _state
+    private val _state = MutableStateFlow(StationState())
+    val state: StateFlow<StationState> = _state
 
     private val _searchQuery = MutableStateFlow("")
 
@@ -31,7 +31,7 @@ class MapViewModel(
         .stateIn(viewModelScope, SharingStarted.Lazily, "")
 
     init {
-        handleIntent(MapIntent.LoadStations)
+        handleIntent(StationIntent.LoadStations)
 
         viewModelScope.launch {
             debouncedQuery.collect { query ->
@@ -40,12 +40,11 @@ class MapViewModel(
         }
     }
 
-    fun handleIntent(intent: MapIntent) {
-
+    fun handleIntent(intent: StationIntent) {
         when (intent) {
-            is MapIntent.LoadStations -> loadStations("")
-            is MapIntent.UpdateSearchQuery -> updateSearchQuery(intent.searchQuery)
-            is MapIntent.SelectStation -> selectStation(intent.stationId)
+            is StationIntent.LoadStations -> loadStations("")
+            is StationIntent.UpdateSearchQuery -> updateSearchQuery(intent.searchQuery)
+            is StationIntent.SelectStation -> selectStation(intent.stationId)
         }
     }
 

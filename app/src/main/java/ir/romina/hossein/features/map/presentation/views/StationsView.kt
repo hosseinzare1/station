@@ -1,4 +1,4 @@
-package ir.romina.hossein.features.map.presentation.widgets
+package ir.romina.hossein.features.map.presentation.views
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
@@ -25,13 +25,13 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import ir.romina.hossein.core.enums.OperationStatus
 import ir.romina.hossein.core.ui.components.AppLoadingIndicator
 import ir.romina.hossein.features.map.domain.entities.Station
-import ir.romina.hossein.features.map.presentation.manager.map.MapIntent
-import ir.romina.hossein.features.map.presentation.manager.map.MapViewModel
+import ir.romina.hossein.features.map.presentation.manager.station.StationIntent
+import ir.romina.hossein.features.map.presentation.manager.station.StationViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun MapMainView(
-    mapViewModel: MapViewModel,
+    stationViewModel: StationViewModel,
     onDetailsTap: (station: Station) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,7 +39,7 @@ fun MapMainView(
     val stationListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    val state by mapViewModel.state.collectAsState()
+    val state by stationViewModel.state.collectAsState()
 
     val firstStation = state.stations.firstOrNull()
     val firstStationPosition = firstStation?.let { LatLng(firstStation.lat, firstStation.lon) }
@@ -65,7 +65,7 @@ fun MapMainView(
             stations = state.stations,
             cameraPositionState = cameraPositionState,
             onClick = { station ->
-                mapViewModel.handleIntent(MapIntent.SelectStation(station.stationId))
+                stationViewModel.handleIntent(StationIntent.SelectStation(station.stationId))
                 coroutineScope.launch {
                     //TODO Move animate to another location that lunched after viewModel updates state
                     stationListState.animateScrollToItem(
@@ -86,7 +86,7 @@ fun MapMainView(
             SearchStationView(
                 modifier = Modifier.weight(1f),
                 onChange = { newText ->
-                    mapViewModel.handleIntent(MapIntent.UpdateSearchQuery(newText))
+                    stationViewModel.handleIntent(StationIntent.UpdateSearchQuery(newText))
                 }
             )
             SyncStateView(
@@ -110,7 +110,7 @@ fun MapMainView(
             selectedStationId = state.selectedStationId,
             onNavigationTap = { station ->
                 coroutineScope.launch {
-                    mapViewModel.handleIntent(MapIntent.SelectStation(station.stationId))
+                    stationViewModel.handleIntent(StationIntent.SelectStation(station.stationId))
                     stationListState.animateScrollToItem(
                         state.stations.indexOf(station)
                     )

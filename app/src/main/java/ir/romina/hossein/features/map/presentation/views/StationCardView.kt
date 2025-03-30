@@ -1,4 +1,4 @@
-package ir.romina.hossein.features.map.presentation.widgets
+package ir.romina.hossein.features.map.presentation.views
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

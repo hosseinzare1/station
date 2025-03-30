@@ -1,4 +1,4 @@
-package ir.romina.hossein.features.map.presentation.widgets
+package ir.romina.hossein.features.map.presentation.views
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

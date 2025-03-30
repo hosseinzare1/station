@@ -10,17 +10,17 @@ import androidx.compose.ui.Modifier
 import ir.romina.hossein.core.enums.OperationStatus
 import ir.romina.hossein.core.ui.components.AppFailureView
 import ir.romina.hossein.features.map.domain.entities.Station
-import ir.romina.hossein.features.map.presentation.manager.map.MapIntent
-import ir.romina.hossein.features.map.presentation.manager.map.MapViewModel
-import ir.romina.hossein.features.map.presentation.widgets.MapMainView
+import ir.romina.hossein.features.map.presentation.manager.station.StationIntent
+import ir.romina.hossein.features.map.presentation.manager.station.StationViewModel
+import ir.romina.hossein.features.map.presentation.views.MapMainView
 
 @Composable
 fun MapScreen(
-    mapViewModel: MapViewModel,
+    stationViewModel: StationViewModel,
     onNavigateToDetails: (station: Station) -> Unit,
 ) {
 
-    val state by mapViewModel.state.collectAsState()
+    val state by stationViewModel.state.collectAsState()
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         when {
@@ -28,7 +28,7 @@ fun MapScreen(
             state.stations.isNotEmpty() || state.operationStatus == OperationStatus.SUCCESS || state.operationStatus == OperationStatus.LOADING ->
                 MapMainView(
                     modifier = Modifier.fillMaxSize().padding(innerPadding),
-                    mapViewModel = mapViewModel,
+                    stationViewModel = stationViewModel,
                     onDetailsTap = onNavigateToDetails,
                 )
 
@@ -39,7 +39,7 @@ fun MapScreen(
                         .padding(innerPadding),
                     description = state.errorMessage,
                     onTryAgainClick = {
-                        mapViewModel.handleIntent(MapIntent.LoadStations)
+                        stationViewModel.handleIntent(StationIntent.LoadStations)
                     },
                 )
 

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ایستگاه</string>
+    <string name="try_again">تلاش مجدد</string>
+    <string name="something_went_wrong">خطایی رخ داد</string>
+    <string name="please_try_again">لطفا مجددا تلاش کنید</string>
+    <string name="navigate">نمایش</string>
+    <string name="details">جزئیات</string>
+    <string name="search">جستوجو</string>
+    <string name="success">موفق</string>
+    <string name="error">خطا</string>
+    <string name="capacity">ظرفیت</string>
+    <string name="payment_methods">روش های پرداخت</string>
+    <string name="back">برگشت</string>
+    <string name="latitude">عرض جغرافیایی</string>
+    <string name="longitude">طول جغرافیایی</string>
+</resources>

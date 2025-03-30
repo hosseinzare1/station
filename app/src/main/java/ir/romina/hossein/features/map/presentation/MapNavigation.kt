@@ -16,7 +16,7 @@ import kotlin.reflect.typeOf
 fun NavGraphBuilder.mapNavGraph(navController: NavHostController) {
     composable<MapNavigation.MapScreen> {
         MapScreen(
-            mapViewModel = koinViewModel(),
+            stationViewModel = koinViewModel(),
             onNavigateToDetails = { station ->
                 navController.navigate(MapNavigation.StationDetailsScreen(station))
             },
