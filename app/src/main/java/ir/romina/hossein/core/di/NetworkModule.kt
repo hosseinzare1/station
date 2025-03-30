@@ -1,5 +1,6 @@
 package ir.romina.hossein.core.di
 
+import com.google.maps.android.ktx.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -14,8 +15,10 @@ import org.koin.dsl.module
 val networkModule = module {
     single<HttpClient> {
         HttpClient(OkHttp) {
-            install(Logging) {
-                level = LogLevel.BODY
+            if (BuildConfig.DEBUG) {
+                install(Logging) {
+                    level = LogLevel.BODY
+                }
             }
             install(ContentNegotiation) {
                 json(Json {
@@ -30,5 +33,4 @@ val networkModule = module {
             }
         }
     }
-
 }
