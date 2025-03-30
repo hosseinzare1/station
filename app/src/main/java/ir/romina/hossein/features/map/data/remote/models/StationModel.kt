@@ -36,7 +36,6 @@ fun StationModel.asEntity(): StationEntity? {
         name = name,
         rentalMethod = rentalMethod?.split(",")
             ?.mapNotNull { method -> RentalMethod.entries.find { it.name == method } },
-        //TODO review and change .toInt() . handle data type witch better way
         stationId = stationId.toInt()
     )
 }
