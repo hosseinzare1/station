@@ -10,25 +10,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SynchronizeViewModel(
     private val synchronizeStationsUseCase: SynchronizeStationsUseCase,
     private val connectivityObserver: ConnectivityObserver,
 ) : ViewModel() {
+
     private val _state = MutableStateFlow(SynchronizeState())
     val state: StateFlow<SynchronizeState> = _state
+
+    private var synchronizationJob: Job? = null
 
     init {
         handleIntent(SynchronizeIntent.SyncStations)
         viewModelScope.launch {
-            connectivityObserver.isConnected.collect { isConnected ->
-                if (isConnected &&
-                    (state.value.synchronizeOperationsStatus == OperationStatus.IDLE ||
-                            state.value.synchronizeOperationsStatus == OperationStatus.ERROR)
-                ) {
-                    handleIntent(SynchronizeIntent.SyncStations)
-                }
+            connectivityObserver.isConnected.map { isConnected ->
+                isConnected && (state.value.synchronizeOperationsStatus == OperationStatus.IDLE || state.value.synchronizeOperationsStatus == OperationStatus.ERROR)
+            }.distinctUntilChanged().collect { shouldSync ->
+                if (shouldSync) synchronizeStations()
             }
         }
     }
@@ -40,33 +43,28 @@ class SynchronizeViewModel(
         }
     }
 
-    private var synchronizationJob: Job? = null
 
     private fun synchronizeStations() {
-        _state.value = _state.value.copy(
-            synchronizeOperationsStatus = OperationStatus.LOADING,
-        )
         synchronizationJob?.cancel()
 
-        synchronizationJob = viewModelScope.launch(Dispatchers.IO) {
-            _state.value = _state.value.copy(synchronizeOperationsStatus = OperationStatus.LOADING)
-            val result = synchronizeStationsUseCase.call()
+        _state.update { it.copy(synchronizeOperationsStatus = OperationStatus.LOADING) }
 
-            _state.value = when (result) {
-                is OperationResult.Success -> {
-                    _state.value.copy(
-                        synchronizeOperationsStatus = OperationStatus.SUCCESS,
+        synchronizationJob = viewModelScope.launch(Dispatchers.IO) {
+            val result = synchronizeStationsUseCase.call()
+            _state.update {
+                when (result) {
+                    is OperationResult.Success -> {
+                        it.copy(
+                            synchronizeOperationsStatus = OperationStatus.SUCCESS,
+                        )
+                    }
+
+                    is OperationResult.Failure -> it.copy(
+                        synchronizeOperationsStatus = OperationStatus.ERROR,
+                        errorMessage = result.exception.message
                     )
                 }
-
-                is OperationResult.Failure -> _state.value.copy(
-                    synchronizeOperationsStatus = OperationStatus.ERROR,
-                    errorMessage = result.exception.message
-                )
             }
-
         }
     }
-
-
 }
