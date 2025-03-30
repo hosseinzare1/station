@@ -11,7 +11,7 @@ import ir.romina.hossein.core.ui.components.AppFailureView
 import ir.romina.hossein.features.map.domain.entities.Station
 import ir.romina.hossein.features.map.presentation.manager.station.StationIntent
 import ir.romina.hossein.features.map.presentation.manager.station.StationViewModel
-import ir.romina.hossein.features.map.presentation.views.MapMainView
+import ir.romina.hossein.features.map.presentation.views.StationsMainView
 
 @Composable
 fun MapScreen(
@@ -24,7 +24,7 @@ fun MapScreen(
     BaseScreen {
         when {
             state.stations.isNotEmpty() || state.operationStatus == OperationStatus.SUCCESS || state.operationStatus == OperationStatus.LOADING ->
-                MapMainView(
+                StationsMainView(
                     modifier = Modifier
                         .fillMaxSize(),
                     stationViewModel = stationViewModel,
