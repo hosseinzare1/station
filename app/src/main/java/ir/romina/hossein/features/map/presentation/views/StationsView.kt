@@ -1,23 +1,15 @@
 package ir.romina.hossein.features.map.presentation.views
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -59,70 +51,44 @@ fun MapMainView(
         }
     }
 
+    LaunchedEffect(state.selectedStationId) {
+        val selectedStation = state.stations.find { it.stationId == state.selectedStationId }
+        selectedStation?.let {
+            cameraPositionState.animate(
+                update = CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 14f)
+            )
+            stationListState.animateScrollToItem(state.stations.indexOf(it))
+        }
+    }
+
+    val stations = remember(state.stations) { state.stations }
+
 
     Box(modifier = modifier) {
         GoogleMapView(
-            stations = state.stations,
+            stations = stations,
             cameraPositionState = cameraPositionState,
             onClick = { station ->
                 stationViewModel.handleIntent(StationIntent.SelectStation(station.stationId))
-                coroutineScope.launch {
-                    //TODO Move animate to another location that lunched after viewModel updates state
-                    stationListState.animateScrollToItem(
-                        state.stations.indexOf(station)
-                    )
-                }
             },
         )
         if (state.operationStatus == OperationStatus.LOADING) {
             AppLoadingIndicator()
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            SearchStationView(
-                modifier = Modifier.weight(1f),
-                onChange = { newText ->
-                    stationViewModel.handleIntent(StationIntent.UpdateSearchQuery(newText))
-                }
-            )
-            SyncStateView(
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        }
-
+        SearchBarRow(
+            modifier = Modifier.align(Alignment.TopCenter),
+            onSearchQueryChange = { newText ->
+                stationViewModel.handleIntent(StationIntent.UpdateSearchQuery(newText))
+            }
+        )
         StationsListView(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .then(
-                    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        Modifier.windowInsetsPadding(WindowInsets.ime)
-                    } else {
-                        Modifier
-                    }
-                ),
+            modifier = Modifier.align(Alignment.BottomCenter),
             stations = state.stations,
             onDetailsTap = onDetailsTap,
             lazyListState = stationListState,
             selectedStationId = state.selectedStationId,
             onNavigationTap = { station ->
-                coroutineScope.launch {
-                    stationViewModel.handleIntent(StationIntent.SelectStation(station.stationId))
-                    stationListState.animateScrollToItem(
-                        state.stations.indexOf(station)
-                    )
-                    cameraPositionState.animate(
-                        update = CameraUpdateFactory.newLatLngZoom(
-                            LatLng(
-                                station.lat, station.lon
-                            ),
-                            14f
-                        )
-                    )
-                }
+                stationViewModel.handleIntent(StationIntent.SelectStation(station.stationId))
             },
         )
     }
