@@ -55,7 +55,7 @@ fun StationsMainView(
         if (stationState.operationStatus == OperationStatus.LOADING) {
             AppLoadingIndicator()
         }
-        SearchBarRow(
+        SearchBarView(
             modifier = Modifier.align(Alignment.TopCenter),
             onSearchQueryChange = { newText ->
                 stationViewModel.handleIntent(StationIntent.UpdateSearchQuery(newText))

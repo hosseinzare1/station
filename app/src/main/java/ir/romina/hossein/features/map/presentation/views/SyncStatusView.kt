@@ -24,7 +24,7 @@ import ir.romina.hossein.features.map.presentation.manager.synchronize.Synchroni
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SyncStateView(modifier: Modifier = Modifier) {
+fun SyncStatusView(modifier: Modifier = Modifier) {
 
     val viewModel: SynchronizeViewModel = koinViewModel()
 
