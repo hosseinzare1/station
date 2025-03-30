@@ -1,12 +1,11 @@
 package ir.romina.hossein.features.map.presentation.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import ir.romina.hossein.core.base.presentation.screens.BaseScreen
 import ir.romina.hossein.core.enums.OperationStatus
 import ir.romina.hossein.core.ui.components.AppFailureView
 import ir.romina.hossein.features.map.domain.entities.Station
@@ -22,12 +21,12 @@ fun MapScreen(
 
     val state by stationViewModel.state.collectAsState()
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    BaseScreen {
         when {
-
             state.stations.isNotEmpty() || state.operationStatus == OperationStatus.SUCCESS || state.operationStatus == OperationStatus.LOADING ->
                 MapMainView(
-                    modifier = Modifier.fillMaxSize().padding(innerPadding),
+                    modifier = Modifier
+                        .fillMaxSize(),
                     stationViewModel = stationViewModel,
                     onDetailsTap = onNavigateToDetails,
                 )
@@ -35,8 +34,7 @@ fun MapScreen(
             state.operationStatus == OperationStatus.ERROR ->
                 AppFailureView(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
+                        .fillMaxSize(),
                     description = state.errorMessage,
                     onTryAgainClick = {
                         stationViewModel.handleIntent(StationIntent.LoadStations)
