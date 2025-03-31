@@ -43,7 +43,7 @@ class StationViewModel(
         when (intent) {
             is StationIntent.LoadStations -> loadStations("")
             is StationIntent.UpdateSearchQuery -> _searchQuery.tryEmit(intent.searchQuery)
-            is StationIntent.SelectStation -> _state.update { it.copy(selectedStationId = intent.stationId) }
+            is StationIntent.SelectStation -> _state.update { it.copy(selectedStation = intent.station) }
         }
     }
 

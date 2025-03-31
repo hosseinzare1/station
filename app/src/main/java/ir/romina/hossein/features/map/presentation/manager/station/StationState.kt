@@ -7,5 +7,5 @@ data class StationState(
     val operationStatus: OperationStatus = OperationStatus.IDLE,
     val errorMessage: String? = null,
     val stations: List<Station> = emptyList(),
-    val selectedStationId: String? = null,
+    val selectedStation: Station? = null,
 )
