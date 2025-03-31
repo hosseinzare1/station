@@ -24,17 +24,22 @@ import ir.romina.hossein.features.map.presentation.manager.synchronize.Synchroni
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SyncStatusView(modifier: Modifier = Modifier) {
-
-    val viewModel: SynchronizeViewModel = koinViewModel()
+fun SyncStatusView(
+    modifier: Modifier = Modifier,
+    viewModel: SynchronizeViewModel = koinViewModel()
+) {
 
     val state by viewModel.state.collectAsState()
 
 
-    Box(modifier = modifier.size(48.dp).background(
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        shape = MaterialTheme.shapes.small
-    ), contentAlignment = Alignment.Center) {
+    Box(
+        modifier = modifier
+            .size(48.dp)
+            .background(
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = MaterialTheme.shapes.small
+            ), contentAlignment = Alignment.Center
+    ) {
         when (state.synchronizeOperationsStatus) {
             OperationStatus.IDLE -> Unit
             OperationStatus.LOADING -> AppLoadingIndicator(

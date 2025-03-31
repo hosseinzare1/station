@@ -2,7 +2,6 @@ package ir.romina.hossein.features.map.presentation.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -21,16 +20,15 @@ fun SearchBarView(
     onSearchQueryChange: (String) -> Unit
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         AppTextField(
-            modifier = modifier
+            modifier = Modifier
                 .padding(all = 16.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.surface),
-
+                .background(MaterialTheme.colorScheme.surface)
+                .weight(1f),
             label = stringResource(R.string.search),
             onChange = onSearchQueryChange,
         )

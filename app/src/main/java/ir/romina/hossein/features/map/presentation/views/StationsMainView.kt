@@ -1,6 +1,8 @@
 package ir.romina.hossein.features.map.presentation.views
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,7 +35,7 @@ fun StationsMainView(
     val stations = remember(stationState.stations) { stationState.stations }
 
     val cameraPositionState = rememberCameraPositionState {
-        val position = (stationState.selectedStation ?: stationState.stations.firstOrNull())?.let {
+        val position = (stationState.selectedStation ?: stations.firstOrNull())?.let {
             LatLng(it.lat, it.lon)
         } ?: LatLng(35.6892, 51.3890)
 
@@ -45,7 +47,7 @@ fun StationsMainView(
             cameraPositionState.animate(
                 update = CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 14f)
             )
-            stationListState.animateScrollToItem(stationState.stations.indexOf(it))
+            stationListState.animateScrollToItem(stations.indexOf(it))
         }
     }
 
@@ -59,10 +61,14 @@ fun StationsMainView(
             },
         )
         if (stationState.operationStatus == OperationStatus.LOADING) {
-            AppLoadingIndicator()
+            AppLoadingIndicator(
+                modifier = Modifier.fillMaxSize()
+            )
         }
         SearchBarView(
-            modifier = Modifier.align(Alignment.TopCenter),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth(),
             onSearchQueryChange = { newText ->
                 stationViewModel.handleIntent(StationIntent.UpdateSearchQuery(newText))
             }
